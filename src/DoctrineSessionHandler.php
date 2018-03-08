@@ -20,8 +20,8 @@
 // Project:  lib-doctrinesessionhandler
 //
 declare(strict_types = 1);
-namespace CodeInc\src;
-use CodeInc\src\SessionData\SessionDataEntityInterface;
+namespace CodeInc\DoctrineSessionHandler;
+use CodeInc\DoctrineSessionHandler\SessionData\SessionDataEntityInterface;
 use Doctrine\ORM\EntityManager;
 
 /**

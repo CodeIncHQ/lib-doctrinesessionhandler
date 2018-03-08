@@ -20,7 +20,7 @@
 // Project:  lib-doctrinesessionhandler
 //
 declare(strict_types = 1);
-namespace CodeInc\src\SessionData;
+namespace CodeInc\DoctrineSessionHandler\SessionData;
 use Doctrine\ORM\Mapping as ORM;
 
 
