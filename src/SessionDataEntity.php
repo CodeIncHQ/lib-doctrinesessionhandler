@@ -20,7 +20,7 @@
 // Project:  lib-doctrinesessionhandler
 //
 declare(strict_types = 1);
-namespace CodeInc\DoctrineSessionHandler\SessionData;
+namespace CodeInc\DoctrineSessionHandler;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -31,7 +31,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @package CodeInc\DoctrineSessionHandler
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SessionDataEntity implements SessionDataEntityInterface {
+class SessionDataEntity {
 	/**
 	 * @ORM\Id()
 	 * @ORM\Column(type="string")

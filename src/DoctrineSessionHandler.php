@@ -21,7 +21,6 @@
 //
 declare(strict_types = 1);
 namespace CodeInc\DoctrineSessionHandler;
-use CodeInc\DoctrineSessionHandler\SessionData\SessionDataEntityInterface;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -44,20 +43,11 @@ class DoctrineSessionHandler implements \SessionHandlerInterface {
 	 * DoctrineSessionHandler constructor.
 	 *
 	 * @param EntityManager $entityManager
-	 * @param string $sessionDataEntityClass
-	 * @throws DoctrineSessionHandlerException
+	 * @param SessionDataEntity $sessionDataEntity
 	 */
-	public function __construct(EntityManager $entityManager, string $sessionDataEntityClass)
+	public function __construct(EntityManager $entityManager, SessionDataEntity $sessionDataEntity)
 	{
-		if (!is_subclass_of($sessionDataEntityClass, SessionDataEntityInterface::class)) {
-			throw new DoctrineSessionHandlerException(
-				sprintf("The class %s is anot a valid session data entity. The session data entity "
-					."must implement %s.",
-					$sessionDataEntityClass, SessionDataEntityInterface::class),
-				$this
-			);
-		}
-		$this->sessionDataEntityClass = $sessionDataEntityClass;
+		$this->sessionDataEntityClass = get_class($sessionDataEntity);
 		$this->entityManager = $entityManager;
 	}
 
@@ -99,7 +89,7 @@ class DoctrineSessionHandler implements \SessionHandlerInterface {
 	public function read($sessionId):string
 	{
 		if ($sessionData = $this->entityManager->find($this->sessionDataEntityClass, (string)$sessionId)) {
-			/** @var SessionDataEntityInterface $sessionData */
+			/** @var SessionDataEntity $sessionData */
 			return $sessionData->getData();
 		}
 		return serialize([]);
@@ -115,16 +105,16 @@ class DoctrineSessionHandler implements \SessionHandlerInterface {
 	 */
 	public function write($sessionId, $data):void
 	{
-		/** @var SessionDataEntityInterface $session */
-		if ($session = $this->entityManager->find($this->sessionDataEntityClass, (string)$sessionId)) {
-			$session->setData($data);
+		/** @var SessionDataEntity $sessionData */
+		if ($sessionData = $this->entityManager->find($this->sessionDataEntityClass, (string)$sessionId)) {
+			$sessionData->setData($data);
 		}
 		else {
-			$session = new $this->sessionDataEntityClass();
-			$session->setId($sessionId);
-			$session->setData($data);
+			$sessionData = new $this->sessionDataEntityClass();
+			$sessionData->setId($sessionId);
+			$sessionData->setData($data);
 		}
-		$this->entityManager->persist($session);
+		$this->entityManager->persist($sessionData);
 	}
 
 	/**
@@ -135,9 +125,9 @@ class DoctrineSessionHandler implements \SessionHandlerInterface {
 	 */
 	public function destroy($sessionId):void
 	{
-		if ($session = $this->entityManager->find($this->sessionDataEntityClass, (string)$sessionId)) {
-			/** @var SessionDataEntityInterface $session */
-			$this->entityManager->remove($session);
+		if ($sessionData = $this->entityManager->find($this->sessionDataEntityClass, (string)$sessionId)) {
+			/** @var SessionDataEntity $sessionData */
+			$this->entityManager->remove($sessionData);
 		}
 	}
 }
