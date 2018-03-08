@@ -33,6 +33,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SessionDataEntity implements SessionDataEntityInterface {
 	/**
+	 * @ORM\Id()
 	 * @ORM\Column(type="string")
 	 * @var string|null
 	 */
