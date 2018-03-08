@@ -27,7 +27,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class SessionDataEntity
  *
- * @ORM\Entity()
+ * @ORM\MappedSuperclass()
  * @package CodeInc\DoctrineSessionHandler
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
