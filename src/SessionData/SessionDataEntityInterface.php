@@ -16,78 +16,23 @@
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     08/03/2018
-// Time:     17:43
+// Time:     17:30
 // Project:  lib-doctrinesessionhandler
 //
 declare(strict_types = 1);
-namespace CodeInc\DoctrineSessionHandler\SessionData;
-use Doctrine\ORM\Mapping as ORM;
+namespace CodeInc\src\SessionData;
 
 
 /**
- * Class SessionDataEntity
+ * Interface SessionDataEntityInterface
  *
- * @ORM\Entity()
- * @package CodeInc\DoctrineSessionHandler
+ * @see SessionDataEntity
+ * @package CodeInc\Session
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class SessionDataEntity implements SessionDataEntityInterface {
-	/**
-	 * @ORM\Column(type="string")
-	 * @var string|null
-	 */
-	private $id;
-
-	/**
-	 * @ORM\Column(type="datetime")
-	 * @var \DateTime|null
-	 */
-	private $lastHit;
-
-	/**
-	 * @ORM\Column(type="text")
-	 * @var string
-	 */
-	private $data;
-
-	/**
-	 * @param null|string $id
-	 */
-	public function setId(?string $id):void
-	{
-		$this->id = $id;
-	}
-
-	/**
-	 * @return null|string
-	 */
-	public function getId():?string
-	{
-		return $this->id;
-	}
-
-	/**
-	 * @param string $data
-	 */
-	public function setData(string $data):void
-	{
-		$this->data = $data;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getData():string
-	{
-		return $this->data;
-	}
-
-	/**
-	 * @ORM\PrePersist()
-	 * @ORM\PreUpdate()
-	 */
-	public function updateLastHit():void
-	{
-		$this->lastHit = new \DateTime('now');
-	}
+interface SessionDataEntityInterface {
+	public function setId(string $sessionId):void;
+	public function getId():?string;
+	public function setData(string $data):void;
+	public function getData():?string;
 }

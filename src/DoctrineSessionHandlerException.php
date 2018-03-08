@@ -20,7 +20,7 @@
 // Project:  lib-doctrinesessionhandler
 //
 declare(strict_types = 1);
-namespace CodeInc\DoctrineSessionHandler;
+namespace CodeInc\src;
 use Throwable;
 
 
