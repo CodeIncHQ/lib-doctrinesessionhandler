@@ -1,6 +1,6 @@
 {
   "name": "codeinc/lib-doctrinesessionhandler",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A PHP session handler to store the session data in a database using Doctrine",
   "homepage": "https://github.com/codeinchq/lib-doctrinesessionhandler",
   "type": "library",

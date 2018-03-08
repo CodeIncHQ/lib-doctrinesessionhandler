@@ -120,7 +120,7 @@ class DoctrineSessionHandler implements \SessionHandlerInterface {
 			$session->setData($data);
 		}
 		else {
-			$session = new ($this->sessionDataEntityClass);
+			$session = new ($this->sessionDataEntityClass)();
 			$session->setId($sessionId);
 			$session->setData($data);
 		}
