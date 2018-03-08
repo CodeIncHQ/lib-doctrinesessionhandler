@@ -83,10 +83,6 @@ class SessionDataEntity {
 		return $this->data;
 	}
 
-	/**
-	 * @ORM\PrePersist()
-	 * @ORM\PreUpdate()
-	 */
 	public function updateLastHit():void
 	{
 		$this->lastHit = new \DateTime('now');

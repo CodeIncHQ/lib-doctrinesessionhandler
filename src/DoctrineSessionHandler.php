@@ -114,6 +114,7 @@ class DoctrineSessionHandler implements \SessionHandlerInterface {
 			$sessionData->setId($sessionId);
 			$sessionData->setData($data);
 		}
+		$sessionData->updateLastHit();
 		$this->entityManager->persist($sessionData);
 	}
 
