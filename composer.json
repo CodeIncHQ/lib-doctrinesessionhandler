@@ -1,6 +1,6 @@
 {
   "name": "codeinc/lib-doctrinesessionhandler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A PHP session handler to store the session data in a database using Doctrine",
   "homepage": "https://github.com/codeinchq/lib-doctrinesessionhandler",
   "type": "library",
@@ -32,6 +32,6 @@
     }
   },
   "suggest": {
-    "codeinchq/lib-session": "A session manager compatible with PSR-7 requests and PSR-15 middlewares"
+    "codeinc/lib-session": "A session manager compatible with PSR-7 requests and PSR-15 middlewares"
   }
 }

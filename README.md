@@ -3,10 +3,10 @@
 The library provides a session handler compatible with the native PHP [`SessionHandlerInterface`](http://php.net/manual/en/class.sessionhandlerinterface.php) interface. This session handler stores the session data in the database using [Doctrine ORM](http://www.doctrine-project.org/).
 
 ## Installation
-This library is available through [Packagist](https://packagist.org/packages/codeinchq/lib-doctrinesessionhandler) and can be installed using [Composer](https://getcomposer.org/): 
+This library is available through [Packagist](https://packagist.org/packages/codeinc/lib-doctrinesessionhandler) and can be installed using [Composer](https://getcomposer.org/): 
 
 ```bash
-composer require codeinchq/lib-doctrinesessionhandler
+composer require codeinc/lib-doctrinesessionhandler
 ```
 
 ## Suggested library
