@@ -29,106 +29,107 @@ use Doctrine\ORM\EntityManager;
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
 class DoctrineSessionHandler implements \SessionHandlerInterface {
-	/**
-	 * @var EntityManager
-	 */
-	private $entityManager;
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
 
-	/**
-	 * @var string
-	 */
-	private $sessionDataEntityClass;
+    /**
+     * @var string
+     */
+    private $sessionDataEntityClass;
 
-	/**
-	 * DoctrineSessionHandler constructor.
-	 *
-	 * @param EntityManager $entityManager
-	 * @param SessionDataEntity $sessionDataEntity
-	 */
-	public function __construct(EntityManager $entityManager, SessionDataEntity $sessionDataEntity)
-	{
-		$this->sessionDataEntityClass = get_class($sessionDataEntity);
-		$this->entityManager = $entityManager;
-	}
+    /**
+     * DoctrineSessionHandler constructor.
+     *
+     * @param EntityManager $entityManager
+     * @param SessionDataEntity $sessionDataEntity
+     */
+    public function __construct(EntityManager $entityManager,
+        SessionDataEntity $sessionDataEntity)
+    {
+        $this->sessionDataEntityClass = get_class($sessionDataEntity);
+        $this->entityManager = $entityManager;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function open($save_path, $name):void { return; }
+    /**
+     * @inheritdoc
+     */
+    public function open($save_path, $name):void { return; }
 
-	/**
-	 * @inheritdoc
-	 * @return bool|void
-	 */
-	public function close():void { return; }
+    /**
+     * @inheritdoc
+     * @return bool|void
+     */
+    public function close():void { return; }
 
-	/**
-	 * @inheritdoc
-	 * @throws \Exception
-	 */
-	public function gc($maxlifetime):bool
-	{
-		$dateTime = new \DateTime("now");
-		$dateTime->sub(new \DateInterval("PT".(int)$maxlifetime."S"));
+    /**
+     * @inheritdoc
+     * @throws \Exception
+     */
+    public function gc($maxlifetime):bool
+    {
+        $dateTime = new \DateTime("now");
+        $dateTime->sub(new \DateInterval("PT".(int)$maxlifetime."S"));
 
-		$this->entityManager->createQueryBuilder()
-			->delete($this->sessionDataEntityClass, "s")
-			->where("s.lastHit < :t")
-			->setParameter(":t", $dateTime)
-			->getQuery()->execute();
+        $this->entityManager->createQueryBuilder()
+            ->delete($this->sessionDataEntityClass, "s")
+            ->where("s.lastHit < :t")
+            ->setParameter(":t", $dateTime)
+            ->getQuery()->execute();
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * @inheritdoc
-	 * @throws \Doctrine\ORM\ORMException
-	 * @throws \Doctrine\ORM\OptimisticLockException
-	 * @throws \Doctrine\ORM\TransactionRequiredException
-	 */
-	public function read($sessionId):string
-	{
-		if ($sessionData = $this->entityManager->find($this->sessionDataEntityClass, (string)$sessionId)) {
-			/** @var SessionDataEntity $sessionData */
-			return $sessionData->getData();
-		}
-		return serialize([]);
-	}
+    /**
+     * @inheritdoc
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
+    public function read($sessionId):string
+    {
+        if ($sessionData = $this->entityManager->find($this->sessionDataEntityClass, (string)$sessionId)) {
+            /** @var SessionDataEntity $sessionData */
+            return $sessionData->getData();
+        }
+        return serialize([]);
+    }
 
-	/**
-	 * @inheritdoc
-	 * @param string $sessionId
-	 * @param string $data
-	 * @throws \Doctrine\ORM\ORMException
-	 * @throws \Doctrine\ORM\OptimisticLockException
-	 * @throws \Doctrine\ORM\TransactionRequiredException
-	 */
-	public function write($sessionId, $data):void
-	{
-		/** @var SessionDataEntity $sessionData */
-		if ($sessionData = $this->entityManager->find($this->sessionDataEntityClass, (string)$sessionId)) {
-			$sessionData->setData($data);
-		}
-		else {
-			$sessionData = new $this->sessionDataEntityClass();
-			$sessionData->setId($sessionId);
-			$sessionData->setData($data);
-		}
-		$sessionData->updateLastHit();
-		$this->entityManager->persist($sessionData);
-	}
+    /**
+     * @inheritdoc
+     * @param string $sessionId
+     * @param string $data
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
+    public function write($sessionId, $data):void
+    {
+        /** @var SessionDataEntity $sessionData */
+        if ($sessionData = $this->entityManager->find($this->sessionDataEntityClass, (string)$sessionId)) {
+            $sessionData->setData($data);
+        }
+        else {
+            $sessionData = new $this->sessionDataEntityClass();
+            $sessionData->setId($sessionId);
+            $sessionData->setData($data);
+        }
+        $sessionData->updateLastHit();
+        $this->entityManager->persist($sessionData);
+    }
 
-	/**
-	 * @inheritdoc
-	 * @throws \Doctrine\ORM\ORMException
-	 * @throws \Doctrine\ORM\OptimisticLockException
-	 * @throws \Doctrine\ORM\TransactionRequiredException
-	 */
-	public function destroy($sessionId):void
-	{
-		if ($sessionData = $this->entityManager->find($this->sessionDataEntityClass, (string)$sessionId)) {
-			/** @var SessionDataEntity $sessionData */
-			$this->entityManager->remove($sessionData);
-		}
-	}
+    /**
+     * @inheritdoc
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
+    public function destroy($sessionId):void
+    {
+        if ($sessionData = $this->entityManager->find($this->sessionDataEntityClass, (string)$sessionId)) {
+            /** @var SessionDataEntity $sessionData */
+            $this->entityManager->remove($sessionData);
+        }
+    }
 }

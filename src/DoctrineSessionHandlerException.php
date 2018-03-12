@@ -27,10 +27,11 @@ use Throwable;
 /**
  * Class DoctrineSessionHandlerException
  *
- * @package CodeInc\Session
+ * @package CodeInc\DoctrineSessionHandler
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class DoctrineSessionHandlerException extends \Exception {
+class DoctrineSessionHandlerException extends \Exception
+{
 	/**
 	 * @var DoctrineSessionHandler
 	 */
