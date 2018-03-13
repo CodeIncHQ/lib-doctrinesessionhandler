@@ -2,7 +2,7 @@
 
 ---
 
-:warning: The Doctrine session handler is now integrated in [`codeinc/lib-session`](https://github.com/CodeIncHQ/lib-session) since its version 2.0. This package is abandon and should not be used anymore for new developpements.
+:warning: The Doctrine session handler is now integrated in [`codeinc/lib-session`](https://github.com/CodeIncHQ/lib-session) since its version 2.0. This package is abandoned and should not be used anymore for new developpements.
 
 ---
 
