@@ -1,5 +1,11 @@
 # Doctrine Session Handler
 
+---
+
+:warning: The Doctrine session handler is now integrated in the [`codeinc/lib-session`](https://github.com/CodeIncHQ/lib-session) package since its version 2.0. This package is abandon and should not be used anymore for new developpements.
+
+---
+
 The library provides a session handler compatible with the native PHP [`SessionHandlerInterface`](http://php.net/manual/en/class.sessionhandlerinterface.php) interface. This session handler stores the session data in the database using [Doctrine ORM](http://www.doctrine-project.org/).
 
 ## Installation
